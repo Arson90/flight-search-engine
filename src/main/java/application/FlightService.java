@@ -7,43 +7,41 @@ import java.util.List;
 
 public class FlightService {
     public static final String RESPONDER = "Flight doesn't exists!";
-
     private FlightDatabase flightDatabase;
 
     public FlightService(){
         this.flightDatabase = new FlightDatabase();
     }
 
-    public String checkIfFlightExists(String departure, String arrival){
+    public Flight checkIfFlightExists(String departure, String arrival){
 
         if (departure != null && arrival != null){
-            for (Flight flight : flightDatabase.flights) {
+            for (Flight flight : this.flightDatabase.getFlights()) {
                 if (flight.getDeparture().equals(departure) && flight.getArrival().equals(arrival)){
-                    return flight.getDetails() + " exists";
+                    return flight;
                 }
             }
         }
-        return RESPONDER;
+        return null;
     }
 
-    public List<String> getFlightsFromCity(String city) {
+    public List<Flight> getFlightsFromCity(String city) {
+        List<Flight> list = new ArrayList<>();
 
-        List<String> list = new ArrayList<>();
-
-        for (Flight flight : flightDatabase.flights){
+        for (Flight flight : this.flightDatabase.getFlights()){
             if (city.equals(flight.getDeparture())){
-                list.add(flight.getDetails());
+                list.add(flight);
             }
         }
         return list;
     }
 
-    public List<String> getFlightToCity(String city){
-        List<String> list = new ArrayList<>();
+    public List<Flight> getFlightToCity(String city){
+        List<Flight> list = new ArrayList<>();
 
-        for (Flight flight : flightDatabase.flights){
+        for (Flight flight : this.flightDatabase.getFlights()){
             if (city.equals(flight.getArrival())){
-                list.add(flight.getDetails());
+                list.add(flight);
             }
         }
         return list;
@@ -52,20 +50,20 @@ public class FlightService {
     public List<Flight> getAllFlights() {
         List<Flight> list = new ArrayList<>();
 
-        for (Flight flight : flightDatabase.flights){
+        for (Flight flight : this.flightDatabase.getFlights()){
             list.add(flight);
         }
         return list;
     }
 
-    public String getTheCheapestFlight(){
+    public Flight getTheCheapestFlight(){
         Flight cheapestFlight = null;
 
-        for (Flight flight : flightDatabase.flights){
+        for (Flight flight : this.flightDatabase.getFlights()){
             if (cheapestFlight == null || flight.getPrice() < cheapestFlight.getPrice()){
                 cheapestFlight = flight;
             }
         }
-        return cheapestFlight.getDetails();
+        return cheapestFlight;
     }
 }

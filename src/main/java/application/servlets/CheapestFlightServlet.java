@@ -1,6 +1,7 @@
 package application.servlets;
 
 import application.FlightService;
+import application.data.Flight;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,26 +9,29 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet("/cheapestFlight")
-public class CheapestFlight extends HttpServlet {
+public class CheapestFlightServlet extends HttpServlet {
+    private FlightService service;
 
-    FlightService service;
-
-    public CheapestFlight(){
+    public CheapestFlightServlet(){
         this(new FlightService());
     }
-
-    public CheapestFlight(FlightService service){
+    
+    public CheapestFlightServlet(FlightService service){
         this.service = service;
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String result = service.getTheCheapestFlight();
+        List<Flight> cheapestFlight = new ArrayList<>();
+        cheapestFlight.add(this.service.getTheCheapestFlight());
 
         resp.setContentType("text/html");
-        resp.getWriter().println("<h1>" + result + "</h2>");
+        req.setAttribute("flight", cheapestFlight);
+        req.getRequestDispatcher("/listOfFlights.jsp").forward(req,resp);
     }
 }

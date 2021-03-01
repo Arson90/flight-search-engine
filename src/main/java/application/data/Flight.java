@@ -1,7 +1,7 @@
 package application.data;
 
 public class Flight {
-    private Integer id;
+    private int id;
     private String departure;
     private String arrival;
     private double price;
@@ -17,12 +17,24 @@ public class Flight {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getDeparture() {
         return departure;
     }
 
+    public void setDeparture(String departure) {
+        this.departure = departure;
+    }
+
     public String getArrival() {
         return arrival;
+    }
+
+    public void setArrival(String arrival) {
+        this.arrival = arrival;
     }
 
     public double getPrice() {
